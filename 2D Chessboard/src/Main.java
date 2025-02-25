@@ -15,12 +15,12 @@ class Chessboard {
         }
 
         board[7][0] = " R ";  // Rook
-        board[7][1] = " N ";  // Knight
+        board[7][1] = " K ";  // Knight
         board[7][2] = " B ";  // Bishop
         board[7][3] = " Q ";  // Queen
         board[7][4] = " C ";  // King
         board[7][5] = " B ";  // Bishop
-        board[7][6] = " N ";  // Knight
+        board[7][6] = " K ";  // Knight
         board[7][7] = " R ";  // Rook
         // repeat setup for pawns
         for (int col = 0; col < 8; col++) {
@@ -28,12 +28,12 @@ class Chessboard {
         }
         
         board[0][0] = " r ";  // Rook
-        board[0][1] = " n ";  // Knight
+        board[0][1] = " k ";  // Knight
         board[0][2] = " b ";  // Bishop
         board[0][3] = " q ";  // Queen
         board[0][4] = " c ";  // King
         board[0][5] = " b ";  // Bishop
-        board[0][6] = " n ";  // Knight
+        board[0][6] = " k ";  // Knight
         board[0][7] = " r ";  // Rook
 
         // Set up black pawns
@@ -63,6 +63,8 @@ class Chessboard {
                         board[row][col] = "   ";
                         board[new_row][new_col] = " p ";
                     }
+                    else
+                        System.out.println("Error. Invalid Move");
                     break;
                 default:
                     System.out.println("Error. Invalid Move");
