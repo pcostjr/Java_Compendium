@@ -1,5 +1,5 @@
 class Chessboard {
-    String[][] board;
+    private String[][] board;
 
     public Chessboard() {
         board = new String[8][8];
@@ -18,7 +18,7 @@ class Chessboard {
         board[7][1] = " N ";  // Knight
         board[7][2] = " B ";  // Bishop
         board[7][3] = " Q ";  // Queen
-        board[7][4] = " K ";  // King
+        board[7][4] = " C ";  // King
         board[7][5] = " B ";  // Bishop
         board[7][6] = " N ";  // Knight
         board[7][7] = " R ";  // Rook
@@ -31,7 +31,7 @@ class Chessboard {
         board[0][1] = " n ";  // Knight
         board[0][2] = " b ";  // Bishop
         board[0][3] = " q ";  // Queen
-        board[0][4] = " k ";  // King
+        board[0][4] = " c ";  // King
         board[0][5] = " b ";  // Bishop
         board[0][6] = " n ";  // Knight
         board[0][7] = " r ";  // Rook
@@ -44,13 +44,31 @@ class Chessboard {
     }
 
     public void display() {
-        for (int row = 0; row < 8; row++) {
+        for (int row = 0; row < board[0].length; row++) {
             System.out.print(row + " ");
-            for (int col = 0; col < 8; col++) {
+            for (int col = 0; col < board[0].length; col++) {
                 System.out.print(board[row][col]);
             }
             System.out.println();
         }
+    }
+
+    public void movePiece(int row, int col, int move_row, int move_col) {
+        int new_row = row + move_row;
+        int new_col = col + move_col;
+        if(0 <= new_row && new_row <= 7 && 0 <= new_col && new_col <= 7) {
+            switch(board[row][col]) {
+                case " p ":
+                    if(move_col == 0 && 0 < move_row && move_row < (row + 2)) {
+                        board[row][col] = "   ";
+                        board[new_row][new_col] = " p ";
+                    }
+                    break;
+                default:
+                    System.out.println("Error. Invalid Move");
+            }
+        }
+        System.out.println();
     }
 }
 
@@ -59,6 +77,7 @@ public class Main {
         Chessboard cb = new Chessboard();
         cb.populate();
         cb.display();
-
+        cb.movePiece(1,1,2,0);
+        cb.display();
     }
 }
