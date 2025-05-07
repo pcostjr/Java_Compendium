@@ -1,4 +1,5 @@
-public class Main {
+public class Main
+{
     public static void main(String[] args) {
 
         Card test = new Card(1,2,123);

@@ -7,7 +7,7 @@
  */
 public class Card
 {
-    private String suits[] = {null, "Spades", "Hearts", "Clubs", "Diamonds"};
+    private String suits[] = {null, "♠", "♥", "♣", "♦"};
     private String faces[] = {null,"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
     private final int face;
     private final int suit;
