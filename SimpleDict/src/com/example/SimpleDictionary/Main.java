@@ -8,7 +8,7 @@ package com.example.SimpleDictionary;
 // Additional submission nodes
 
 
-// import collections class from java library so we can create an array of shuffles fruits
+// import collections class from java library so we can create an array of shuffled fruits
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -65,7 +65,8 @@ public class Main {
             fruitSD.add(fruit, fruit);
         }
 
-        // check the size. Since we alphabetized the collection, the size should be 25 since every node is on the right
+        // check the size. Even though we did not alphabetize
+        // the collection, the size should be 25 since every node is on the right
         // (creating basically a linked list.)
         System.out.println(fruits.size() + " Added to collection. Current Size: " + fruitSD.size());
 
