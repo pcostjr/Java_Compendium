@@ -7,11 +7,11 @@
  */
 public class Card
 {
-    private String suits[] = {null, "♠", "♥", "♣", "♦"};
-    private String faces[] = {null,"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
+
+    private final String[] suits = {null, "♠", "♥", "♣", "♦"};
+    private final String[] faces = {null,"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
     private final int face;
     private final int suit;
-    private int position;
 
     //Class Constructor
     // Suit Key:
@@ -20,10 +20,9 @@ public class Card
     // Face Key:
     // A = 1, King = 13
     // Checking is handled by Deck class
-    public Card(int face, int suit, int position) {
+    public Card(int face, int suit) {
         this.face = face;
         this.suit = suit;
-        this.position = position;
     }
 
     //getter method instantiation
@@ -35,19 +34,9 @@ public class Card
         return suit;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    //only the position can be modified afterwards
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     // 1 = Spade 2 = Heart
     // 3 = Club 4 = Diamond
     public String toString() {
-        return faces[face] + " of " + suits[suit] + " located at position: " + position;
+        return faces[face] + " of " + suits[suit];
     }
-
 }
