@@ -1,9 +1,9 @@
 /** Card.java
  * Author: Peter Costantino
- * Created: 12.5.22
- * Last Updated: 12.5.22
+ * Created: 12.5.2022
+ * Last Updated: 10.30.2025
  * Description: A simple card in java that contains a face, a suit, and a toString method.
- * The face and suit are immutable after object creation, but the position can be changed.
+ * The face and suit are immutable after object creation.
  */
 public class Card
 {
