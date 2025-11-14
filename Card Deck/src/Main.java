@@ -19,6 +19,7 @@ public class Main
            System.out.println("Deck shuffled");
            boolean subMenu = true;
            int choice = 0;
+           System.out.println(deck);
            while(subMenu) {
                 System.out.println("Player, choose a card (1-52)");
                 choice = scan.nextInt();
