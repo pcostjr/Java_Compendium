@@ -100,8 +100,7 @@ public class Dice {
         }
 
         public int roll() {
-            currentValue = random.nextInt(sides) + 1;
-            return currentValue;
+            return currentValue = random.nextInt(sides) + 1;
         }
 
         public int getValue() {
