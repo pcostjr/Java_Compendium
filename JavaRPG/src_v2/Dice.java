@@ -2,7 +2,7 @@
 // @description: A class that handles multiple dice of any number of sides using an arraylist
 // @author: pcostjr
 // created: 1.7.2026
-// last update: 1.20.2026 - Added removeDie() and sortDice() methods
+// last update: 1.20.2026
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,12 +71,12 @@ public class Dice {
     }
     
     // Returns the sum total of dice without rolling them
-    public int[] getAllValues() {
-        int[] values = new int[dice.size()];
+    public int getAllValues() {
+        int sum = 0;
         for (int i = 0; i < dice.size(); i++) {
-            values[i] = dice.get(i).getValue();
+            sum+= dice.get(i).getValue();
         }
-        return values;
+        return sum;
     }
     
     // returns the size of the arraylist
@@ -89,10 +89,7 @@ public class Dice {
         dice.clear();
     }
     
-    /**
-     * Removes a die at the specified index from the collection
-     * @param index The index of the die to remove
-     */
+    // removes a die at target location
     public void removeDie(int index) {
         if (index < 0 || index >= dice.size()) {
             throw new IndexOutOfBoundsException("Invalid die index: " + index);
@@ -100,14 +97,11 @@ public class Dice {
         dice.remove(index);
     }
     
-    /**
-     * Sorts the dice collection based on their current values (lowest to highest)
-     * This allows for easy removal of the lowest die
-     */
+    // sorts the dice using a comparator
     public void sortDice() {
         Collections.sort(dice, new Comparator<Die>() {
-            @Override
             public int compare(Die d1, Die d2) {
+
                 return Integer.compare(d1.getValue(), d2.getValue());
             }
         });

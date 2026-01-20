@@ -1,18 +1,14 @@
 // Character.java
-// @description: A D&D character class with combat capabilities
-// @author: pcostjr (modified by Claude)
+// @description: A stripped-down tabletop RPG character class with combat capabilities
+// @author: pcostjr
 // created: 1.7.2026
 // last update: 1.20.2026
-
 import java.util.ArrayList;
 
-/**
- * Represents a D&D character with stats, combat abilities, and character type.
- * Character types: "melee" (STR-based), "ranged" (DEX-based), "magic" (INT-based)
- */
+// class constructor
 public class Character implements CharacterInterface {
-    // Base ability scores
-    // In order: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
+    // base ability score stats
+    // strength, dexterity, constitution, intelligence, wisdom, charisma
     private int STR;
     private int DEX;
     private int CON;
@@ -20,57 +16,39 @@ public class Character implements CharacterInterface {
     private int WIS;
     private int CHA;
 
-    // character basics: name, level, HP, AC
+    // character non-stat elements
+    // name, level, HP, AC
     private String name;
     private int level;
     private int hitPoints;
     private int armorClass;
     
-    // character type: determines which ability modifier is used for attacks/AC
+    // character type determines which ability modifier is used for attacks/AC
     private String characterType; // "melee", "ranged", or "magic"
-
-    // class features
-    private ArrayList<String> feats;
     
     // Dice object for rolling
     private Dice dice;
 
-    /**
-     * Default constructor - creates a level 1 melee character named "Player"
-     */
+    // default constructor. creates a level 1 melee character called Player for testing purposes
     public Character() {
         this("Player", 1, "melee");
     }
 
-    /**
-     * Creates a Character with a name and level, defaults to melee type
-     * @param name The character's name
-     * @param level The character's starting level
-     */
-    public Character(String name, int level) {
-        this(name, level, "melee");
-    }
-    
-    /**
-     * Full constructor - creates a character with name, level, and type
-     * @param name The character's name
-     * @param level The character's starting level
-     * @param characterType The type: "melee", "ranged", or "magic"
-     */
+    // creates a character with a name, level, and type
     public Character(String name, int level, String characterType) {
         this.name = name;
         this.level = level;
         
-        // Validate and set character type
+        // validate and set character type
         if (characterType.equalsIgnoreCase("melee") || 
             characterType.equalsIgnoreCase("ranged") || 
             characterType.equalsIgnoreCase("magic")) {
             this.characterType = characterType.toLowerCase();
         } else {
-            throw new IllegalArgumentException("Character type must be 'melee', 'ranged', or 'magic'");
+            throw new IllegalArgumentException("character type must be 'melee', 'ranged', or 'magic'");
         }
 
-        // Default ability scores (will be replaced by rollStats)
+        // default ability scores (will be replaced by rollStats)
         this.STR = 10;
         this.DEX = 10;
         this.CON = 10;
@@ -78,29 +56,20 @@ public class Character implements CharacterInterface {
         this.WIS = 10;
         this.CHA = 10;
 
-        feats = new ArrayList<>();
+        // create the dice roller for this character
         dice = new Dice();
 
-        // Calculate hit points and armor class
+        // calculate hit points and armor class
         calculateBaseHitPoints();
         calculateArmorClass();
     }
 
-    /**
-     * Calculates ability modifier based on the ability score
-     * Formula: (ability score - 10) / 2, rounded down
-     * @param abilityScore The ability score to calculate modifier for
-     * @return The ability modifier
-     */
+    // calculates ability modifier based on the given score
     public int getAbilityModifier(int abilityScore) {
         return (int) Math.floor((abilityScore - 10) / 2.0);
     }
     
-    /**
-     * Gets the relevant ability modifier based on character type
-     * Melee = STR, Ranged = DEX, Magic = INT
-     * @return The primary ability modifier for this character
-     */
+    // returns the primary modifier based on the damage type of the class
     private int getPrimaryAbilityModifier() {
         switch (characterType) {
             case "melee":
@@ -114,81 +83,53 @@ public class Character implements CharacterInterface {
         }
     }
 
-    /**
-     * Calculates base hit points
-     * HP = 20 + CON modifier
-     */
+    // calculates the base HP of the character as a sum of 20 + the ability modifier
     private void calculateBaseHitPoints() {
         this.hitPoints = 20 + getAbilityModifier(CON);
     }
 
-    /**
-     * Calculates armor class based on character type
-     * AC = 10 + primary ability modifier
-     * Melee = 10 + STR mod, Ranged = 10 + DEX mod, Magic = 10 + INT mod
-     */
+    // calculates the AC of the character as 10 + the primary modifier
     private void calculateArmorClass() {
         this.armorClass = 10 + getPrimaryAbilityModifier();
     }
 
-    /**
-     * Rolls stats for the character using 4d6 drop lowest method
-     * Rolls 4 six-sided dice, drops the lowest, sums the remaining 3
-     * Applies this method to all 6 ability scores
-     */
+    // rolls the stat values for the character
     @Override
     public void rollStats() {
-        STR = rollSingleStat();
-        DEX = rollSingleStat();
-        CON = rollSingleStat();
-        INT = rollSingleStat();
-        WIS = rollSingleStat();
-        CHA = rollSingleStat();
+        STR = rollStat();
+        DEX = rollStat();
+        CON = rollStat();
+        INT = rollStat();
+        WIS = rollStat();
+        CHA = rollStat();
         
-        // Recalculate HP and AC with new stats
+        // recalculate HP and AC with new stats
         calculateBaseHitPoints();
         calculateArmorClass();
     }
     
-    /**
-     * Helper method to roll a single stat using 4d6 drop lowest
-     * @return The stat value (sum of highest 3 dice)
-     */
-    private int rollSingleStat() {
-        dice.clear(); // Clear previous dice
-        dice.addDice(4, 6); // Add four 6-sided dice
-        dice.rollAll(); // Roll all dice
-        dice.sortDice(); // Sort dice by value (lowest to highest)
-        dice.removeDie(0); // Remove the lowest die (at index 0)
+    // rolls a single stat using the method of rolling 4d6, dropping the lowest
+    // and then summing them together.
+    private int rollStat() {
+        dice.clear(); // clear previous dice
+        dice.addDice(4, 6); // add four 6-sided dice
+        dice.rollAll(); // roll all dice
+        dice.sortDice(); // sort dice by value (lowest to highest)
+        dice.removeDie(0); // remove the lowest die (at index 0)
         
-        // Sum the remaining 3 dice
-        int sum = 0;
-        for (int i = 0; i < dice.size(); i++) {
-            sum += dice.getDieValue(i);
-        }
-        
-        return sum;
+        return dice.getAllValues();
     }
 
-    /**
-     * Performs an attack roll
-     * Rolls 1d20 + primary ability modifier
-     * @return The total attack roll value
-     */
+    // performs an 'attack' by rolling 1d20 + primary ability mod to simulate an accuracy roll
     @Override
     public int attack() {
         dice.clear();
-        dice.addDie(20); // Add a 20-sided die
+        dice.addDie(20); // add a 20-sided die
         int roll = dice.rollDie(0); // Roll it
         return roll + getPrimaryAbilityModifier();
     }
 
-    /**
-     * Calculates damage dealt by the character
-     * Rolls 1d6 + primary ability modifier
-     * @return The total damage value
-     */
-    @Override
+    // simulates dealing damage via a six-sided die + primary ability mod
     public int dealDamage() {
         dice.clear();
         dice.addDie(6); // Add a 6-sided die
@@ -196,23 +137,13 @@ public class Character implements CharacterInterface {
         return roll + getPrimaryAbilityModifier();
     }
 
-    /**
-     * Defends against an incoming attack
-     * Compares the attack value to the character's armor class
-     * @param attackValue The attack roll from the attacker
-     * @return true if the attack hits (attackValue >= AC), false if it misses
-     */
-    @Override
+    // determines if an attack can be blocked.
+    // an attack is blocked if the attackvalue is at or below the AC
     public boolean defend(int attackValue) {
         return attackValue >= armorClass;
     }
 
-    /**
-     * Takes damage and reduces HP
-     * HP cannot go below 0
-     * @param damage The amount of damage to take
-     */
-    @Override
+    // assigns damage values if an attack fails
     public void takeDamage(int damage) {
         hitPoints -= damage;
         if (hitPoints < 0) {
@@ -220,22 +151,19 @@ public class Character implements CharacterInterface {
         }
     }
 
-    /**
-     * Checks if the character is still alive
-     * @return true if HP > 0, false otherwise
-     */
+    // determines if character still has hit points
     public boolean isAlive() {
         return hitPoints > 0;
     }
 
-    // Leveling Up Method
+    // increases the character's level by 1
     public void levelUp() {
         level++;
         calculateBaseHitPoints();
         calculateArmorClass();
     }
 
-    // Getter and Setter Methods
+    // ACCESSORS & MUTATORS
     public String getName() {
         return name;
     }
@@ -301,12 +229,12 @@ public class Character implements CharacterInterface {
         this.CHA = CHA;
     }
 
-    @Override
+
     public int getHitPoints() {
         return hitPoints;
     }
 
-    @Override
+
     public int getArmorClass() {
         return armorClass;
     }
@@ -326,23 +254,7 @@ public class Character implements CharacterInterface {
         }
     }
 
-    public ArrayList<String> getFeats() {
-        return feats;
-    }
-
-    public void setFeats(ArrayList<String> feats) {
-        this.feats = feats;
-    }
-
-    public void addFeat(String feat) {
-        this.feats.add(feat);
-    }
-
-    /**
-     * ToString method for character representation
-     * Displays character info using formatted strings
-     */
-    @Override
+    // toString representation of the Character
     public String toString() {
         return String.format("Character: %s (Level %d %s)\n" +
                         "HP: %d | AC: %d\n" +

@@ -2,8 +2,10 @@ import java.lang.Math;
 
 public class Main {
     public static void main(String[] args) {
-        String str = "It's raining cats and dogs!";
-        char c = str.charAt(0);
+        for (int j = 1; j < 10; j += 2)
+        {
+            System.out.print(j);
+        }
 
 
 

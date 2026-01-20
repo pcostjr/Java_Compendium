@@ -1,35 +1,32 @@
 // Main.java
-// @description: Test driver for the Character class
-// @author: pcostjr (modified by Claude)
+// @description: test driver for the Character class
+// @author: pcostjr
 // created: 1.20.2026
 
 public class Main {
     public static void main(String[] args) {
         // Create three different character types
-        Character warrior = new Character("Conan", 1, "melee");
-        Character archer = new Character("Legolas", 1, "ranged");
-        Character wizard = new Character("Gandalf", 1, "magic");
-        
-        // Roll stats for each character
-        System.out.println("=== Rolling Stats ===");
+        Character warrior = new Character("Fortniticus the Brave", 1, "melee");
+        Character archer = new Character("Legally distinct Katniss Everdean", 1, "ranged");
+        Character wizard = new Character("Snas Undertlae", 1, "magic");
+
+        System.out.println("Rolling Stats");
         warrior.rollStats();
         archer.rollStats();
         wizard.rollStats();
-        
-        // Display character information
-        System.out.println("\n=== Character Sheets ===");
+
+        System.out.println("\nCharacter Sheets");
         System.out.println(warrior);
         System.out.println("\n" + archer);
         System.out.println("\n" + wizard);
-        
-        // Simulate combat between warrior and archer
+
         System.out.println("\n\n=== COMBAT: " + warrior.getName() + " vs " + archer.getName() + " ===");
         
         int round = 1;
         while (warrior.isAlive() && archer.isAlive()) {
             System.out.println("\n--- Round " + round + " ---");
             
-            // Warrior attacks archer
+            // warrior attacks archer
             int warriorAttack = warrior.attack();
             System.out.println(warrior.getName() + " attacks with roll: " + warriorAttack);
             
@@ -47,7 +44,7 @@ public class Main {
                 break;
             }
             
-            // Archer attacks warrior
+            // archer attacks warrior
             int archerAttack = archer.attack();
             System.out.println(archer.getName() + " attacks with roll: " + archerAttack);
             
@@ -59,29 +56,21 @@ public class Main {
                 System.out.println("Miss! " + warrior.getName() + "'s AC (" + warrior.getArmorClass() + ") blocks the attack.");
             }
             
-            // Check if warrior is still alive
+            // check if warrior is still alive
             if (!warrior.isAlive()) {
                 System.out.println("\n" + warrior.getName() + " has been defeated!");
                 break;
             }
             
             round++;
-            
-            // Safety limit to prevent infinite loops
-            if (round > 50) {
-                System.out.println("\nCombat ended in a draw after 50 rounds!");
-                break;
-            }
         }
         
-        // Declare winner
+        // declare winner
         System.out.println("\n=== COMBAT RESULTS ===");
         if (warrior.isAlive() && !archer.isAlive()) {
             System.out.println(warrior.getName() + " wins with " + warrior.getHitPoints() + " HP remaining!");
         } else if (archer.isAlive() && !warrior.isAlive()) {
             System.out.println(archer.getName() + " wins with " + archer.getHitPoints() + " HP remaining!");
-        } else {
-            System.out.println("Both fighters still standing!");
         }
     }
 }
